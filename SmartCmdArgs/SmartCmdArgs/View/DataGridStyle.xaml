@@ -24,6 +24,7 @@
         <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource {x:Static vs:EnvironmentColors.ToolWindowContentGridBrushKey}}" />
         <Setter Property="RowStyle" Value="{DynamicResource DataGridRowVS}" />
         <Setter Property="CellStyle" Value="{DynamicResource GeneralCellStyle}" />
+        <Setter Property="GroupStyle" Value="{DynamicResource GeneralCellStyle}" />
     </Style>
 
     <Style x:Key="DataGridRowVS" TargetType="DataGridRow">
@@ -75,4 +76,5 @@
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
+    <GroupStyle x:Key="DataGridVSGroupStyle"></GroupStyle>
 </ResourceDictionary>

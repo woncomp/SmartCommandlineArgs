@@ -9,10 +9,17 @@ namespace SmartCmdArgs.ViewModel
 {
     public class CmdArgItem : PropertyChangedBase
     {
+        private Guid groupId;
         private Guid id;
         private bool enabled;
         private string project;       
         private string command;
+
+        public Guid GroupId
+        {
+            get { return groupId; }
+            set { groupId = value; OnNotifyPropertyChanged(); }
+        }
 
         public Guid Id
         {

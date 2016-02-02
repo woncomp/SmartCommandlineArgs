@@ -55,8 +55,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Helper\DelayExecution.cs" />
-    <Compile Include="Helper\ObservableCollectionEx.cs" />
+
+    <Compile Include="Helper\DictionaryEx.cs" />
+    <Compile Include="Helper\LamdaConverter.cs" />
+    <Compile Include="Helper\DelayExecution.cs" />    <Compile Include="Helper\ObservableCollectionEx.cs" />
     <Compile Include="ToolWindow.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="Helper\BindingListEx.cs" />

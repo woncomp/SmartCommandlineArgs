@@ -21,6 +21,8 @@ namespace SmartCmdArgs.ViewModel
         {
             get { return _selectedItems; } set { _selectedItems = value; OnSelectedItemsChanged(); }
         }
+        
+        public Dictionary<Guid, string> GroupNames { get; }
 
         [Newtonsoft.Json.JsonIgnore]
         public ICollectionView DataCollectionView { get; }
@@ -31,6 +33,19 @@ namespace SmartCmdArgs.ViewModel
         {
             DataCollection = new ObservableCollectionEx<CmdArgItem>();
             DataCollectionView = CollectionViewSource.GetDefaultView(DataCollection);
+
+            GroupNames = new Dictionary<Guid, string>();
+
+            DataCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("GroupId", new LamdaConverter(
+                (v, p) =>
+                {
+                    Guid? guid = v as Guid?;
+
+                    if (guid == null)
+                        return null;
+
+                    return GroupNames.GetValueOrAddDefault(guid.Value, "New Key");
+                })));
 			
             if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
             {
@@ -43,9 +58,10 @@ namespace SmartCmdArgs.ViewModel
         }
 
         // CRUD Operations
-        public CmdArgItem AddNewItem(string command, string project, bool enabled = true)
+        public CmdArgItem AddNewItem(string command, string project, Guid? groupId = null, bool enabled = true)
         {
             CmdArgItem item = new CmdArgItem() {
+                GroupId = groupId ?? Guid.Empty,
                 Id = Guid.NewGuid(),
                 Command = command,
                 Enabled = enabled,

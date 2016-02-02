@@ -66,7 +66,7 @@ namespace SmartCmdArgs.ViewModel
 
             AddEntryCommand = new RelayCommand(
                 () => {
-                    CurrentArgumentList.AddNewItem(command: "", project: StartupProject, enabled: true);
+                    CurrentArgumentList.AddNewItem(command: "", project: StartupProject, groupId:Guid.NewGuid(), enabled: true);
                 }, canExecute: _ =>
                 {
                     return StartupProject != null;
@@ -137,7 +137,7 @@ namespace SmartCmdArgs.ViewModel
                 var pastedItems = JsonConvert.DeserializeObject<CmdArgClipboardItem[]>(pastedItemsJson);
                 foreach (var item in pastedItems)
                 {
-                    CurrentArgumentList.AddNewItem(item.Command, StartupProject, item.Enabled);
+                    CurrentArgumentList.AddNewItem(item.Command, StartupProject, enabled:item.Enabled);
                 }
             }
             else if (Clipboard.ContainsText())
@@ -188,7 +188,7 @@ namespace SmartCmdArgs.ViewModel
                 var curListVM = GetListViewModel(projectCommandsPair.Key);
                 foreach (var command in projectCommandsPair.Value)
                 {
-                    curListVM.AddNewItem(command, projectCommandsPair.Key, false);
+                    curListVM.AddNewItem(command, projectCommandsPair.Key, enabled:false);
                 }
             }
             populatedFromDictionary = true;
