@@ -10,6 +10,7 @@ namespace SmartCmdArgs.ViewModel
     public class CmdArgItem : PropertyChangedBase
     {
         private Guid id;
+        private Guid groupId;
         private bool enabled;
         private string project;       
         private string command;
@@ -18,6 +19,12 @@ namespace SmartCmdArgs.ViewModel
         {
             get { return id; }
             set { id = value; OnNotifyPropertyChanged(); }
+        }
+
+        public Guid GroupId
+        {
+            get { return groupId; }
+            set { groupId = value; OnNotifyPropertyChanged(); }
         }
 
         public string Command

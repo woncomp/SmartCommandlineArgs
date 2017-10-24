@@ -16,6 +16,7 @@
         <!-- Enable Drag&Drop -->
         <Setter Property="dd:DragDrop.IsDragSource" Value="True" />
         <Setter Property="dd:DragDrop.IsDropTarget" Value="True" />
+        <Setter Property="dd:DragDrop.UseDefaultDragAdorner" Value="True" />
 
         <!-- Colors -->
         <Setter Property="Background" Value="{DynamicResource {x:Static vs:TreeViewColors.BackgroundBrushKey}}"/>

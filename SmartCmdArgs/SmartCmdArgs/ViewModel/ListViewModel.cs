@@ -37,7 +37,18 @@ namespace SmartCmdArgs.ViewModel
         {
             DataCollection = new ObservableCollectionEx<CmdArgItem>();
             DataCollectionView = CollectionViewSource.GetDefaultView(DataCollection);
-			
+            
+            DataCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("GroupId", new LamdaConverter(
+                (v, p) =>
+                {
+                    Guid? guid = v as Guid?;
+
+                    if (guid == null || guid == Guid.Empty)
+                        return null;
+
+                    return guid.ToString();
+                })));
+
             if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
             {
                 DataCollection.Add(new CmdArgItem() { Enabled = true, Command = @"C:\Users\Markus\Desktop\" });
@@ -48,11 +59,13 @@ namespace SmartCmdArgs.ViewModel
             
         }
 
+        private Random testRnd = new Random(); 
         // CRUD Operations
         public CmdArgItem AddNewItem(string command, bool enabled = true)
         {
             CmdArgItem item = new CmdArgItem() {
                 Id = Guid.NewGuid(),
+                GroupId = testRnd.NextDouble() < 0.5 ? new Guid("{96FD913C-C055-4DB2-B001-4481A2F67DD8}") : new Guid("{A552B821-F818-431B-A225-1DF100689FFA}"),
                 Command = command,
                 Enabled = enabled};
 
