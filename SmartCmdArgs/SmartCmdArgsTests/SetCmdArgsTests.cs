@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using EnvDTE;
+using Microsoft.VsSDK.IntegrationTestLibrary;
 using SmartCmdArgsTests.Utils;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Assert;
@@ -37,6 +38,7 @@ namespace SmartCmdArgsTests
 
             Dte.Solution.SolutionBuild.Build(true);
             using (var waiter = new WaitUntil())
+            using (StartDialogBoxPurger(NativeMethods.IDYES))
             {
                 Dte.Events.DebuggerEvents.OnEnterDesignMode += reason => waiter.Finish();
                 Dte.ExecuteCommand("Debug.Start");
@@ -90,6 +92,7 @@ namespace SmartCmdArgsTests
             }
 
             using (var waiter = new WaitUntil())
+            using (StartDialogBoxPurger(NativeMethods.IDYES))
             {
                 Dte.Events.DebuggerEvents.OnEnterBreakMode +=
                     (dbgEventReason reason, ref dbgExecutionAction action) => waiter.Finish();
@@ -115,6 +118,7 @@ namespace SmartCmdArgsTests
             Dte.Debugger.Breakpoints.Item(1).Enabled = false;
 
             using (var waiter = new WaitUntil())
+            using (StartDialogBoxPurger(NativeMethods.IDYES))
             {
                 int dbgDesignEnters = 0;
                 Dte.Events.DebuggerEvents.OnEnterDesignMode += reason =>

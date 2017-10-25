@@ -108,6 +108,12 @@ namespace SmartCmdArgsTests
             InvokeInUIThread(() => properties.VcsSupport = enabled);
         }
 
+        internal DialogBoxPurger StartDialogBoxPurger(int buttonAction, int numberOfDialogsToWaitFor = 1, string expectedDialogMesssage = null)
+        {
+            var purger = new DialogBoxPurger(buttonAction);
+            purger.Start();
+            return purger;
+        }
 
         /// <summary>
         /// Helper method which is used to invoke a concrete test method on TClass
