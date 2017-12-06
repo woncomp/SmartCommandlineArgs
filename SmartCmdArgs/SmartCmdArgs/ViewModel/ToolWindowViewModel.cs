@@ -76,6 +76,10 @@ namespace SmartCmdArgs.ViewModel
         
         public RelayCommand CutItemsCommand { get; }
 
+        public RelayCommand UndoCommand { get; }
+
+        public RelayCommand RedoCommand { get; }
+
         public event EventHandler CommandLineChanged;
 
         public ToolWindowViewModel()
@@ -130,6 +134,10 @@ namespace SmartCmdArgs.ViewModel
                 () => {
                     TreeViewModel.ToggleSelected();
                 }, canExecute: _ => HasStartupProject());
+
+            UndoCommand = new RelayCommand(() => TreeViewModel.History.Undo());
+            
+            RedoCommand = new RelayCommand(() => TreeViewModel.History.Redo());
 
             CopySelectedItemsCommand = new RelayCommand(() => CopySelectedItemsToClipboard(includeProjects: true), canExecute: _ => HasSelectedItems());
 
@@ -218,13 +226,16 @@ namespace SmartCmdArgs.ViewModel
                 .TakeWhile(item => !item.IsSelected).Count();
 
             bool removedAnItem = false;
-            foreach (var item in TreeViewModel.SelectedItems.ToList())
+            using (TreeViewModel.History.OpenGroup())
             {
-                if (item.Parent != null)
+                foreach (var item in TreeViewModel.SelectedItems.ToList())
                 {
-                    item.Parent.Items.Remove(item);
-                    TreeViewModel.SelectedItems.Remove(item);
-                    removedAnItem = true;
+                    if (item.Parent != null)
+                    {
+                        item.Parent.Items.Remove(item);
+                        TreeViewModel.SelectedItems.Remove(item);
+                        removedAnItem = true;
+                    }
                 }
             }
             if (!removedAnItem)

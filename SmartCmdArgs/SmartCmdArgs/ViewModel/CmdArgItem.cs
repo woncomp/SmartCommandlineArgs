@@ -257,6 +257,8 @@ namespace SmartCmdArgs.ViewModel
             {
                 UpdateCheckedState();
             }
+
+            OnCollectionChanged(this, e);
         }
 
         public bool? UpdateCheckedState()
@@ -349,6 +351,11 @@ namespace SmartCmdArgs.ViewModel
             Parent?.OnChildSelectionChanged(e);
         }
 
+        public virtual void OnCollectionChanged(CmdContainer contiContainer, NotifyCollectionChangedEventArgs e)
+        {
+            Parent?.OnCollectionChanged(contiContainer, e);
+        }
+
         public IEnumerable<CmdBase> GetEnumerable(bool useView = false, bool includeSelf = false, bool includeCollapsed = true)
         {
             if (includeSelf)
@@ -419,6 +426,11 @@ namespace SmartCmdArgs.ViewModel
         public override void OnChildSelectionChanged(CmdBase e)
         {
             ParentTreeViewModel?.OnItemSelectionChanged(e);
+        }
+
+        public override void OnCollectionChanged(CmdContainer contiContainer, NotifyCollectionChangedEventArgs e)
+        {
+            ParentTreeViewModel?.OnContainerCollectionChanged(contiContainer, e);
         }
     }
 

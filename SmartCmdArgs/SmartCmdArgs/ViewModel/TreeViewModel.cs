@@ -249,5 +249,18 @@ namespace SmartCmdArgs.ViewModel
                 SelectedItems.Remove(item);
             ItemSelectionChanged?.Invoke(this, item);
         }
+
+        public ActionHistory History { get; } = new ActionHistory(10);
+        public void OnContainerCollectionChanged(CmdContainer container, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                History.AddAction(new InsertAction(e.NewItems.Cast<CmdBase>(), e.NewStartingIndex, container));
+            }
+            if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                History.AddAction(new RemoveAction(e.OldItems.Cast<CmdBase>(), e.OldStartingIndex, container));
+            }
+        }
     }
 }

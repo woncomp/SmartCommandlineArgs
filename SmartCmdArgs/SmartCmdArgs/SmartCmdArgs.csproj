@@ -64,6 +64,8 @@
     <Compile Include="CmdArgsOptionPage.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Helper\ActionHistory.cs" />
+    <Compile Include="Helper\Actions.cs" />
     <Compile Include="Helper\DelayExecution.cs" />
     <Compile Include="Helper\Extensions.cs" />
     <Compile Include="Helper\FileSystemWatcherDisabledContext.cs" />
