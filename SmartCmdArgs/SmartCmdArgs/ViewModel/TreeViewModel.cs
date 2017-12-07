@@ -225,7 +225,10 @@ namespace SmartCmdArgs.ViewModel
 
         public void MoveSelectedEntries(int moveDirection)
         {
-            Projects.Values.ForEach(project => project.MoveEntries(SelectedItems, moveDirection));
+            using (History.OpenGroupContext())
+            {
+                Projects.Values.ForEach(project => project.MoveEntries(SelectedItems, moveDirection));
+            }
         }
 
         public void ToggleSelected()
@@ -257,9 +260,13 @@ namespace SmartCmdArgs.ViewModel
             {
                 History.AddAction(new InsertAction(e.NewItems.Cast<CmdBase>(), e.NewStartingIndex, container));
             }
-            if (e.Action == NotifyCollectionChangedAction.Remove)
+            else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
                 History.AddAction(new RemoveAction(e.OldItems.Cast<CmdBase>(), e.OldStartingIndex, container));
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Move)
+            {
+                History.AddAction(new MoveAction(e.OldStartingIndex, e.NewStartingIndex, container));
             }
         }
     }

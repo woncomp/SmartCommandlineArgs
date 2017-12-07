@@ -54,4 +54,28 @@ namespace SmartCmdArgs.Helper
             container.Items.RemoveRange(items);
         }
     }
+
+    public class MoveAction : IAction
+    {
+        private int sourceIndex;
+        private int targetIndex;
+        private CmdContainer container;
+
+        public MoveAction(int sourceIndex, int targetIndex, CmdContainer container)
+        {
+            this.sourceIndex = sourceIndex;
+            this.targetIndex = targetIndex;
+            this.container = container;
+        }
+
+        public void Undo()
+        {
+            container.Items.Move(targetIndex, sourceIndex);
+        }
+
+        public void Redo()
+        {
+            container.Items.Move(sourceIndex, targetIndex);
+        }
+    }
 }
