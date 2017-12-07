@@ -226,7 +226,7 @@ namespace SmartCmdArgs.ViewModel
                 .TakeWhile(item => !item.IsSelected).Count();
 
             bool removedAnItem = false;
-            using (TreeViewModel.History.OpenGroup())
+            using (TreeViewModel.History.OpenGroupContext())
             {
                 foreach (var item in TreeViewModel.SelectedItems.ToList())
                 {

@@ -74,6 +74,8 @@ namespace SmartCmdArgs.View
         protected override DependencyObject GetContainerForItemOverride() => new TreeViewItemEx(this);
         protected override bool IsItemItsOwnContainerOverride(object item) => item is TreeViewItemEx;
 
+        public TreeViewModel Model => ((ToolWindowViewModel)DataContext).TreeViewModel;
+
         // taken from https://stackoverflow.com/questions/459375/customizing-the-treeview-to-allow-multi-select
 
         // Used in shift selections

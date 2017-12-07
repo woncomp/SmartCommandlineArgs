@@ -124,6 +124,9 @@ namespace SmartCmdArgs.View
         public static void HandleDropForTarget(DragDropEffects result, DragEventArgs e = null)
         {
             System.Diagnostics.Debug.WriteLine($"HandleDropForTarget: {dropInfo.TargetItem.Item}");
+
+            dropInfo.TargetItem.ParentTreeView.Model.History.OpenGroup();
+
             IEnumerable<CmdBase> data = DropInfo.ExtractDropData(dragInfo, e);
             if (dropInfo.CanAcceptData(data)
                 && (result.HasFlag(DragDropEffects.Move) || result.HasFlag(DragDropEffects.Copy)))
@@ -162,6 +165,8 @@ namespace SmartCmdArgs.View
                 if (e != null) e.Effects = DragDropEffects.None;
             }
 
+            dropInfo.TargetItem.ParentTreeView.Model.History.CloseGroup();
+
             dropInfo?.DropTargetAdorner?.Detach();
             dropInfo = null;
         }
@@ -172,6 +177,7 @@ namespace SmartCmdArgs.View
 
             dropInfo?.UpdateTargetCollectionAndIndex();
 
+            dragInfo.VisualSource.Model.History.OpenGroup();
             if (result.HasFlag(DragDropEffects.Move))
             {
                 foreach (var sourceItem in dragInfo.SourceItems)
@@ -186,6 +192,7 @@ namespace SmartCmdArgs.View
 
             if (dropInfo?.TargetItem != null)
                 HandleDropForTarget(result);
+            dragInfo.VisualSource.Model.History.CloseGroup();
         }
 
         private static void Cancel()

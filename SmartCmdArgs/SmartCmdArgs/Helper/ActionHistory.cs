@@ -59,7 +59,22 @@ namespace SmartCmdArgs.Helper
             return true;
         }
 
-        public GroupContext OpenGroup() => new GroupContext(this);
+        public bool OpenGroup()
+        {
+            if (curGroup != null) return false;
+            curGroup = new ActionGroup();
+            return true;
+        }
+
+        public bool CloseGroup()
+        {
+            if (curGroup == null) return false;
+            var group = curGroup;
+            curGroup = null;
+            return AddAction(group);
+        }
+
+        public GroupContext OpenGroupContext() => new GroupContext(this);
 
         public class GroupContext : IDisposable
         {
@@ -68,14 +83,12 @@ namespace SmartCmdArgs.Helper
             public GroupContext(ActionHistory owner)
             {
                 this.owner = owner;
-                this.owner.curGroup = new ActionGroup();
+                this.owner.OpenGroup();
             }
 
             public void Dispose()
             {
-                var group = owner.curGroup;
-                owner.curGroup = null;
-                owner.AddAction(group);
+                owner.CloseGroup();
             }
         }
     }
