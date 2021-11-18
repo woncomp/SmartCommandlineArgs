@@ -23,7 +23,7 @@ namespace SmartCmdArgs.Helper
         private static void SetSingleConfigArgument(EnvDTE.Project project, string arguments, string propertyName)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-
+            
             try { project.Properties.Item(propertyName).Value = arguments; }
             catch (Exception ex) { Logger.Error($"Failed to set single config arguments for project '{project.UniqueName}' with error '{ex}'"); }
         }
@@ -104,6 +104,13 @@ namespace SmartCmdArgs.Helper
                     windowsRemoteDebugger.SetPropertyValue("RemoteDebuggerCommandArguments", arguments);
                 }
                 else { Logger.Warn("SetVCProjEngineArguments: ProjectConfig Rule 'RemoteDebuggerCommandArguments' returned null"); }
+
+                dynamic googleAndroidDebugger = vcCfg.Rules.Item("GoogleAndroidDebugger"); // is IVCRulePropertyStorage
+                if (googleAndroidDebugger != null)
+                {
+                    googleAndroidDebugger.SetPropertyValue("LaunchFlags", $"-e args '\"{arguments}\"'");
+                }
+                else { Logger.Warn("SetVCProjEngineArguments: ProjectConfig Rule 'GoogleAndroidDebugger' returned null"); }
             }
             else { Logger.Warn("SetVCProjEngineArguments: VCProject?.ActiveConfiguration? returned null"); }
         }
@@ -154,6 +161,18 @@ namespace SmartCmdArgs.Helper
                     }
                 }
                 else { Logger.Warn("GetVCProjEngineAllArguments: ProjectConfig Rule 'WindowsRemoteDebugger' returned null"); }
+
+                // Read android debugger values
+                dynamic googleAndroidDebugger = cfg.Rules.Item("GoogleAndroidDebugger"); // is IVCRulePropertyStorage
+                if (googleAndroidDebugger != null)
+                {
+                    var localArguments = googleAndroidDebugger.GetUnevaluatedPropertyValue("LaunchFlags");
+                    if (!string.IsNullOrEmpty(localArguments))
+                    {
+                        allArgs.Add(localArguments.TrimPrefix("-e args '\"").TrimSuffix("\"'"));
+                    }
+                }
+                else { Logger.Warn("GetVCProjEngineAllArguments: ProjectConfig Rule 'GoogleAndroidDebugger' returned null"); }
             }
         }
 
