@@ -49,6 +49,12 @@ namespace SmartCmdArgs.ViewModel
             }
         }
 
+        public bool StoppedTemporarily
+        {
+            get;
+            set;
+        }
+
         private string textBeforeEdit;
         private CmdBase currentEditingItem;
         private bool _isInEditMode;

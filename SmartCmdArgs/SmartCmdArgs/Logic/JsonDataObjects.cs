@@ -31,6 +31,7 @@ namespace SmartCmdArgs.Logic
         public int FileVersion = 2;
 
         public bool ShowAllProjects;
+        public bool StoppedTemporarily;
         public HashSet<Guid> SelectedItems = new HashSet<Guid>();
         public HashSet<Guid> CheckedArguments = new HashSet<Guid>();
         public HashSet<Guid> ExpandedContainer = new HashSet<Guid>();

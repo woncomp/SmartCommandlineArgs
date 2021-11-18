@@ -51,6 +51,8 @@ namespace SmartCmdArgs.ViewModel
 
         public RelayCommand ShowSettingsCommand { get; }
 
+        public RelayCommand ToggleStoppedCommand { get; }
+
         public RelayCommand ToggleSelectedCommand { get; }
         
         public RelayCommand CopySelectedItemsCommand { get; }
@@ -146,6 +148,11 @@ namespace SmartCmdArgs.ViewModel
                         SettingsViewModel.Assign(settingsClone);
                         package.SaveSettings();
                     }
+                });
+
+            ToggleStoppedCommand = new RelayCommand(
+                () => {
+                    TreeViewModel.StoppedTemporarily = !TreeViewModel.StoppedTemporarily;
                 });
 
             ToggleSelectedCommand = new RelayCommand(

@@ -42,6 +42,7 @@ namespace SmartCmdArgs
         public const int ToolbarAddGroupCommandId = 0x1105;
         public const int ToolbarShowAllProjectsCommandId = 0x1106;
         public const int ToolbarOpenSettingsCommandId = 0x1107;
+        public const int ToolbarStoppedCommandId = 0x1108;
 
         public static readonly Guid KeyBindingsCmdSet = new Guid("886F463E-7F96-4BA4-BA88-F36D63044A00");
 
@@ -92,6 +93,8 @@ namespace SmartCmdArgs
 
                 AddToggleCommandToService(commandService, CmdArgsToolBarCmdSet, ToolbarShowAllProjectsCommandId, 
                     package.ToolWindowViewModel.ShowAllProjectsCommand, () => package.ToolWindowViewModel.TreeViewModel.ShowAllProjects);
+                AddToggleCommandToService(commandService, CmdArgsToolBarCmdSet, ToolbarStoppedCommandId,
+                    package.ToolWindowViewModel.ToggleStoppedCommand, () => package.ToolWindowViewModel.TreeViewModel.StoppedTemporarily);
             }
         }
 

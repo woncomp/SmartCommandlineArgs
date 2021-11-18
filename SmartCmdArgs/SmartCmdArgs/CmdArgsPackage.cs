@@ -560,6 +560,9 @@ namespace SmartCmdArgs
         private void VsHelper_ProjectWillRun(object sender, EventArgs e)
         {
             Logger.Info("VS-Event: Startup project will run.");
+
+            if(ToolWindowViewModel.TreeViewModel.StoppedTemporarily)
+                return;
             
             foreach (var startupProject in ToolWindowViewModel.TreeViewModel.StartupProjects)
             {

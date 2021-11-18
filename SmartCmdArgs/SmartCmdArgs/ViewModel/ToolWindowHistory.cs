@@ -195,6 +195,7 @@ namespace SmartCmdArgs.ViewModel
             if (_buffer.TryGetCurrent(out SuoDataJson data))
             {
                 _vm.TreeViewModel.ShowAllProjects = data.ShowAllProjects;
+                _vm.TreeViewModel.StoppedTemporarily = data.StoppedTemporarily;
 
                 foreach (var pair in data.ProjectArguments)
                 {
